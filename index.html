@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>校園人力 - 首頁</title>
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/scroll.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.js"></script>
+    <script src="js/index.js"></script>
+  </head>
+  <body>
+    <div id="index" class="page">
+      <div v-for="(info,id) in jobs" v-bind:id="'detail'+id" v-bind:post_id="info.post_id" class="detail_form">
+        <h4 class="job_title">{{info.job}}</h4>
+        <div v-on:click="cancel_detail" class="cancel_detail">X</div>
+        <p class="agent">單位 : {{info.agent}}</p>
+        <p v-if="info.target != ''" class="target">應徵對象 : {{info.target}}</p>
+        <p class="time">工作時間 : {{info.work_time}}</p>
+        <p class="workplace">地點 : {{info.location}}</p>
+        <p v-if="info.require != ''" class="require">工作要求 : {{info.require}}</p>
+        <p v-if="info.salary != ''" class="pay">時薪 : {{info.salary}}</p>
+        <p class="contact">聯絡方式 : {{info.contact}}</p>
+        <p class="apply">應徵方式 : {{info.apply}}</p>
+        <hr>
+        <p class="work">工作說明</p>
+        <p class="work_content">{{info.description}}</p>
+        <h5 class="days">{{info.due_date}} 截止</h5>
+      </div>
+      <div v-for="(info,id) in folder" v-bind:id="'detail'+id" v-bind:post_id="info.post_id" class="detail_form">
+        <h4 class="job_title">{{info.job}}</h4>
+        <div v-on:click="cancel_detail" class="cancel_detail">X</div>
+        <p class="agent">單位 : {{info.agent}}</p>
+        <p class="target">應徵對象 : {{info.target}}</p>
+        <p class="time">工作時間 : {{info.work_time}}</p>
+        <p class="workplace">地點 : {{info.location}}</p>
+        <p class="require">工作要求 : {{info.require}}</p>
+        <p class="pay">時薪 : {{info.salary}}</p>
+        <p class="contact">聯絡方式 : {{info.contact}}</p>
+        <p class="apply">應徵方式 : {{info.apply}}</p>
+        <hr>
+        <p class="work">工作說明</p>
+        <p class="work_content">{{info.description}}</p>
+        <h5 class="days">{{info.due_date}} 截止</h5>
+      </div>
+      <div v-on:click="stop" class="login_page">
+        <div class="signin">
+          <h4>使用者登入</h4>
+          <input placeholder="帳號" v-model="account" class="account">
+          <input placeholder="密碼" v-model="password" type="password" class="pad">
+          <h5 id="login" v-on:click="login">登入</h5>
+          <p id="error" v-if="errMsg!=''">*{{errMsg}}</p>
+        </div>
+        <div class="regis">
+          <h4>用戶註冊</h4>
+          <input placeholder="輸入帳號" v-model="account_r" class="account">
+          <input id="psd" placeholder="輸入密碼" v-model="psd_r" type="password">
+          <input id="cpsd" placeholder="確認密碼" v-model="cpsd" type="password">
+          <h5 id="regis" v-on:click="register">註冊</h5>
+          <p id="error_r" v-if="errMsg_r!=''">*{{errMsg_r}}</p>
+        </div>
+      </div>
+      <div class="login_message">
+        <h3>登入後才可以使用收藏功能哦!</h3>
+      </div>
+      <div class="folder"><i v-on:click="click_folder" open_status="false" class="fa fa-folder-o"></i>
+        <div class="folder_detail scrollable"><i class="fa fa-bookmark-o"></i>
+          <div v-if="folder.length &gt; 0" class="favorite">收藏的工作</div>
+          <div v-if="folder.length &lt;= 0" class="favorite">趕快收藏想要的工作!</div>
+          <div v-if="folder.length &gt; 0" v-on:click="clear_folder" class="clear">
+            <h4>Clear</h4>
+          </div>
+          <div v-for="info in folder" v-on:click="display_detail_from_folder(info.post_id)" class="folder_info">
+            <h5 class="title">{{info.job}}</h5>
+            <p class="agent">{{info.agent}}</p>
+            <p class="days"><span class="d">{{parseInt((new Date(info.due_date)-new Date())/1000/60/60/24)}}天</span><span>後截止</span></p>
+            <hr>
+          </div>
+        </div>
+        <div class="bottom_flag"></div>
+      </div>
+      <div class="blur">
+        <div class="topbar">
+          <div class="webname">中山 x 打工 x 實習</div>
+          <div class="topbar_choose">
+            <p v-on:click="load_work('jobs')">校園工讀</p>
+            <p v-on:click="load_work('intern')">學生實習</p>
+            <p v-on:click="show_login" class="login_bar">{{user}}</p>
+            <p v-if="user !='登入'" v-on:click="logout" class="logout">登出</p>
+            <p v-on:click="toManager" class="manager">刊登工作</p>
+          </div>
+        </div>
+        <div class="choose_page">
+          <div class="choose_block">
+            <div v-on:click="load_work('jobs')" class="choose_work">
+              <div class="choose_img work"></div>
+              <div class="title">校園工讀<i class="fa fa-terminal"></i></div>
+            </div>
+            <div v-on:click="load_work('intern')" class="choose_intern">
+              <div class="choose_img intern"></div>
+              <div class="title">學生實習<i class="fa fa-terminal"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="filterbar">
+          <div class="filter_block">
+            <div job_type="long" v-on:click="filter(1)" class="filter">長期工讀</div>
+            <div job_type="short" v-on:click="filter(2)" class="filter">短期工讀</div>
+            <div job_type="admin" v-on:click="filter(3)" class="filter">行政處室</div>
+            <div job_type="college" v-on:click="filter(4)" class="filter">學院系所</div>
+            <div job_type="other" v-on:click="filter(5)" class="filter">其他單位</div>
+          </div>
+        </div>
+        <div class="info_page">
+          <div v-if="jobs.length &lt;= 0" class="error">
+            <h3 style="text-align:center;" class="errorMessage">- 目前尚無工讀資訊 -</h3>
+          </div>
+          <div class="info">
+            <div v-for="(info,id) in jobs" v-bind:id="'info_block'+info.post_id" class="info_block">
+              <div class="flag">剩{{parseInt((new Date(info.due_date)-new Date())/1000/60/60/24)}}天</div>
+              <h4 class="job_title">{{info.job}}</h4>
+              <p class="agent">{{info.agent}}</p>
+              <p v-if="info.target != ''" class="target">應徵對象 : {{info.target}}</p>
+              <p class="time">工作時間 : {{info.work_time}}</p>
+              <p class="workplace">地點 : {{info.location}}</p>
+              <p v-if="info.salary != ''" class="pay">時薪 : {{info.salary}}</p>
+              <h5 v-on:click="display_detail(id)" v-bind:id="id" class="detail">詳細資訊</h5>
+              <h5 class="days">{{info.time_type}}</h5><i status="false" v-bind:id="'bookmark'+info.post_id" v-on:click="bookmark(info.post_id, id)" v-bind:bookmark_post_id="info.post_id" class="fa fa-bookmark-o"></i>
+              <div class="bottom_bar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <h5>- Design By Howard -</h5>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

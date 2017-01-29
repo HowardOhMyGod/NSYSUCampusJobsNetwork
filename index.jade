@@ -1,0 +1,128 @@
+doctype html
+html
+	head
+		meta(charset='UTF-8')
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		title 校園人力 - 首頁
+		link(rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+		link(rel='stylesheet' href='css/style.css')
+		link(rel='stylesheet' href='css/scroll.css')
+		//- link(rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.js')
+		script(src='js/index.js')
+		
+	body
+		.page#index
+			.detail_form(v-for="(info,id) in jobs" v-bind:id="'detail'+id" v-bind:post_id="info.post_id")
+				h4.job_title {{info.job}}
+				.cancel_detail(v-on:click='cancel_detail') X
+				p.agent 單位 : {{info.agent}}
+				p.target(v-if="info.target != ''") 應徵對象 : {{info.target}}
+				p.time 工作時間 : {{info.work_time}}
+				p.workplace 地點 : {{info.location}}
+				p.require(v-if="info.require != ''") 工作要求 : {{info.require}}
+				p.pay(v-if="info.salary != ''") 時薪 : {{info.salary}}
+				p.contact 聯絡方式 : {{info.contact}}
+				p.apply 應徵方式 : {{info.apply}}
+				hr
+				p.work 工作說明
+				p.work_content {{info.description}}
+				h5.days {{info.due_date}} 截止
+			.detail_form(v-for="(info,id) in folder" v-bind:id="'detail'+id" v-bind:post_id="info.post_id")
+				h4.job_title {{info.job}}
+				.cancel_detail(v-on:click='cancel_detail') X
+				p.agent 單位 : {{info.agent}}
+				p.target 應徵對象 : {{info.target}}
+				p.time 工作時間 : {{info.work_time}}
+				p.workplace 地點 : {{info.location}}
+				p.require 工作要求 : {{info.require}}
+				p.pay 時薪 : {{info.salary}}
+				p.contact 聯絡方式 : {{info.contact}}
+				p.apply 應徵方式 : {{info.apply}}
+				hr
+				p.work 工作說明
+				p.work_content {{info.description}}
+				h5.days {{info.due_date}} 截止
+			.login_page(v-on:click="stop")
+				.signin
+					h4 使用者登入
+					input.account(placeholder="帳號" v-model="account")
+					input.pad(placeholder="密碼" v-model="password" type="password")
+					h5#login(v-on:click="login") 登入
+					p#error(v-if="errMsg!=''") *{{errMsg}}
+				.regis
+					h4 用戶註冊
+					input.account(placeholder="輸入帳號" v-model="account_r")
+					input#psd(placeholder="輸入密碼" v-model="psd_r" type="password")
+					input#cpsd(placeholder="確認密碼" v-model="cpsd" type="password")
+					h5#regis(v-on:click="register") 註冊
+					p#error_r(v-if="errMsg_r!=''") *{{errMsg_r}}
+			.login_message
+				h3 登入後才可以使用收藏功能哦!
+					
+
+			.folder
+				i.fa.fa-folder-o(v-on:click="click_folder" open_status="false")
+				.folder_detail.scrollable
+					i.fa.fa-bookmark-o
+					.favorite(v-if="folder.length > 0") 收藏的工作
+					.favorite(v-if="folder.length <= 0") 趕快收藏想要的工作!
+					.clear(v-if="folder.length > 0" v-on:click="clear_folder")
+						h4 Clear
+					.folder_info(v-for="info in folder" v-on:click="display_detail_from_folder(info.post_id)")
+						h5.title {{info.job}}
+						p.agent {{info.agent}}
+						p.days
+							span.d {{parseInt((new Date(info.due_date)-new Date())/1000/60/60/24)}}天
+							span 後截止
+						hr
+				.bottom_flag
+
+			.blur
+				.topbar
+					.webname 中山 x 打工 x 實習
+					.topbar_choose
+						p(v-on:click="load_work('jobs')") 校園工讀
+						p(v-on:click="load_work('intern')") 學生實習
+						p.login_bar(v-on:click="show_login") {{user}}
+						p.logout(v-if="user !='登入'" v-on:click="logout") 登出
+						p.manager(v-on:click="toManager") 刊登工作
+				.choose_page
+					.choose_block
+						.choose_work(v-on:click="load_work('jobs')")
+							.choose_img.work
+							.title
+								| 校園工讀
+								i.fa.fa-terminal
+						.choose_intern(v-on:click="load_work('intern')")
+							.choose_img.intern
+							.title
+								| 學生實習
+								i.fa.fa-terminal
+				.filterbar
+					.filter_block
+						.filter(job_type="long" v-on:click="filter(1)") 長期工讀
+						.filter(job_type="short" v-on:click="filter(2)") 短期工讀
+						.filter(job_type="admin" v-on:click="filter(3)") 行政處室
+						.filter(job_type="college" v-on:click="filter(4)") 學院系所
+						.filter(job_type="other" v-on:click="filter(5)") 其他單位
+						
+				.info_page
+					.error(v-if="jobs.length <= 0")
+						h3.errorMessage(style="text-align:center;") - 目前尚無工讀資訊 -
+					.info
+						.info_block(v-for="(info,id) in jobs" v-bind:id="'info_block'+info.post_id")
+							.flag 剩{{parseInt((new Date(info.due_date)-new Date())/1000/60/60/24)}}天
+							h4.job_title {{info.job}}
+							p.agent {{info.agent}}
+							p.target(v-if="info.target != ''") 應徵對象 : {{info.target}}
+							p.time 工作時間 : {{info.work_time}}
+							p.workplace 地點 : {{info.location}}
+							p.pay(v-if="info.salary != ''") 時薪 : {{info.salary}}
+							h5.detail(v-on:click='display_detail(id)' v-bind:id="id") 詳細資訊
+							h5.days {{info.time_type}}
+							i.fa.fa-bookmark-o(status="false" v-bind:id="'bookmark'+info.post_id" v-on:click="bookmark(info.post_id, id)" v-bind:bookmark_post_id="info.post_id")
+							.bottom_bar
+				.footer
+					h5 - Design By Howard -

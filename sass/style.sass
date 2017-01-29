@@ -1,0 +1,544 @@
+$color_yellow: #ffb336
+$color_blue: #27232F
+$color_white: #f3f7f7
+$color_grey: #333
+
+*
+	// border: solid 1px
+	position: relative
+	font-family: 微軟正黑體
+@mixin hc
+	left: 50%
+	top: 50%
+	transform: translate(-50%, -50%)
+html, body
+	padding: 0
+	margin: 0
+	
+.page
+	background-color: #F3F3F1
+	.blur
+		height: 100%
+		width: 100%
+		filter: blur(0px)
+		position: absolute
+		z-index: 12
+		// transition: 0.3s
+		.footer
+			height: 50px
+			width: 100%
+			background-color: $color_blue
+			h5
+				color: $color_yellow
+				text-align:center
+				margin: 0px
+				top: 50%
+				transform: translateY(-50%)
+	.folder
+		display: none
+		padding: 10px
+		position: fixed
+		right: 30px
+		bottom: 30px
+		border-radius: 50%
+		background-color: $color_blue
+		box-shadow: 0px 0px 10px rgba(0,0,0,0.5)
+		z-index: 300
+		width: 40px
+		height: 40px
+		.fa-folder-o
+			font-size: 36px
+			color: $color_yellow
+			position: absolute
+			cursor: pointer
+			+hc
+		.folder_detail
+			opacity: 0
+			transition-duration: 0.2s
+			visibility: hidden
+			padding: 20px
+			border-radius:　10px
+			position: absolute
+			top: -480px
+			left: -250px
+			width: 300px
+			height: 450px
+			overflow: auto
+			background-color: $color_grey
+			color: $color_white
+			box-sizing: border-box
+			border-radius: 10px 10px 0px 10px
+			box-shadow: 0px 5px 10px rgba(0,0,0,0.4)
+
+			.fa-bookmark-o
+				color: $color_yellow
+				font-size: 25px
+			.favorite, .clear
+				display: inline-block
+				vertical-align: top
+			.clear
+				padding: 0px
+				margin: 0px
+				margin-left: 40px
+				h4
+				 padding: 0px
+				 margin: 0px
+			.clear:hover
+				color: $color_yellow
+				cursor: pointer
+				transform: scale(1.05)
+			.favorite
+				color: $color_yellow
+				font-weight: 700
+				display: inline-block
+				margin-left: 10px
+			.folder_info
+				margin-bottom: 10px
+				cursor: pointer
+				.title
+					margin: 0px
+					margin-top: 20px
+					margin-bottom: 5px
+					font-size: 20px
+				.agent, .days
+					margin: 0px
+					display: inline-block
+					font-size: 16px
+					margin-bottom: 10px
+				.days
+					position: absolute
+					right: 20px
+					.d 
+						color: $color_yellow
+			.folder_info:hover
+				transform: scale(1.05)
+				hr
+					border: solid 2px $color_yellow
+		.bottom_flag
+			height: 20px
+			width: 20px
+			background-color: $color_grey
+			position: absolute
+			top: -42px
+			right: 13.5px
+			transform: rotate(45deg)
+			visibility: hidden
+			transition:　0.28s
+			opacity: 0
+
+
+	.folder:hover
+		background-color: $color_grey
+		
+	.login_page
+		height: 350px
+		border: solid 2px $color_blue
+		padding: 20px
+		box-sizing: border-box
+		position: fixed
+		z-index: 300
+		top: 0px
+		left: 50%
+		transform: translateX(-50%)
+		background-color: $color_blue
+		box-shadow: 0px 0px 20px rgba(0,0,0,0.5)
+		transition: 0.5s
+		visibility: hidden
+		opacity: 0
+		
+		h4, h5
+			text-align: center
+			color: $color_yellow
+			cursor: pointer
+		h4
+			border-bottom: solid 2px
+			padding-bottom: 5px
+		h5
+			border: solid 2px
+			padding: 3px
+		h5:hover
+			background-color: white
+
+
+		input
+			display: block
+			padding: 5px
+			margin: 0px
+			margin-top: 15px
+			letter-spacing: 1px
+			border: solid 2px rgba($color_yellow, 0.8)
+
+		.signin, .regis
+			display: inline-block
+			vertical-align: top
+			p
+				margin: 0
+				color: white
+				margin-top: -10px
+				font-size: 16px
+				letter-spacing: 1px
+				text-align: center
+		.signin
+
+		.regis
+			margin-left: 40px
+	.login_message
+		position: fixed
+		top: 90%
+		left: 50%
+		transform: translate(-50%, -50%)
+		text-align: center
+		letter-spacing: 1px
+		z-index: 400
+		transition: 0.3s
+		opacity: 0
+
+
+		h3
+			border: solid 2px $color_yellow
+			padding: 10px
+			background-color: $color_blue
+			color: $color_yellow
+			margin: 0
+			border-radius: 6px
+	.detail_form
+		width: 600px
+		display: none
+		position: fixed
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		background-color: $color_blue
+		z-index: 100
+		padding: 20px
+		color: $color_white
+		letter-spacing: 1px
+		filter: blur(px)
+		overflow: hidden
+		box-shadow: 0px 0px 20px rgba(0,0,0,0.6)
+		transition: 0.3s
+		min-width: 300px
+		max-width: 600px
+		// max-height: 200px
+		
+		.cancel_detail, .job_title, .days, i
+			display: inline-block
+		.job_title
+			font-size: 24px
+			margin: 0px
+			color: $color_white
+			padding-bottom: 5px
+			border-bottom: solid 3px $color_yellow
+			
+		.cancel_detail
+			position: absolute
+			right: 20px
+			width: 40px
+			height: 40px
+			text-align: center
+			font-size: 30px
+			border-radius: 50%
+			color: $color_yellow
+			border: solid 3px
+			cursor: pointer
+		.cancel_detail:hover
+			transform: scale(0.9)
+		p
+			font-size: 16px
+		.pay
+			margin-bottom: 20px
+		.days, i
+			margin-bottom: 0px
+			font-size: 22px
+			margin-top: 30px
+			padding: 10px
+			box-sizing: border-box
+			vertical-align: middle
+		.days
+			color: $color_yellow
+			letter-spacing: 2px
+		.work
+			text-align: center
+			display: inline-block
+			left: 50%
+			transform: translateX(-50%)
+			padding-bottom: 5px
+			border-bottom: solid 3px $color_yellow
+			margin-bottom: 0px
+			margin-top: 5px
+			font-weight: 700
+			font-size: 20px
+		.work_content
+			margin: 0px
+			margin-top: 10px
+			font-size: 16px
+	.topbar
+		height: 50px
+		position: fixed
+		width: 100%
+		top: 0px
+		background-color: $color_blue
+		color:  $color_white
+		z-index: 2
+		box-shadow: 0px 0px 12px rgba(0,0,0,0.5)
+		.webname, .topbar_choose
+			display: inline-block
+			position: absolute
+			vertical-align: middle
+			top: 50%
+			transform: translateY(-50%)
+		.webname
+			left: 5%
+		.topbar_choose
+			padding: 0
+			right: 10%
+			p
+				display: inline-block
+				margin: 0px
+				margin-right: 25px
+				cursor: pointer
+			.login_bar
+				color: $color_yellow
+				font-weight: 700
+				padding-bottom: 3px
+				border-bottom: 2px solid $color_yellow
+			.login_bar:hover
+				cursor: pointer
+				border-width: 3px
+			.logout:hover
+				cursor: pointer
+				border-width: 3px
+			.manager
+				cursor: pointer
+			.manager:hover
+				color: $color_yellow
+				font-weight: 600
+
+	.choose_page
+		height: 550px
+
+		.choose_block
+			height: 250px
+			width: 60%
+			+hc
+			.choose_work, .choose_intern
+				height: 300px
+				width: 300px
+				display: inline-block
+				position: absolute
+				border: solid 2px
+				background-color: $color_blue
+				cursor: pointer
+				overflow: hidden
+				max-width: 400px
+				border: solid 4px $color_yellow
+				border-radius: 0 0 10% 10%
+				box-shadow: 0px 3px 10px rgba($color_blue,0.5)
+				i
+					position: absolute
+					left: -220px
+					top: 50%
+					transform: translateY(-50%)
+					font-weight: 700
+					transition: 0.2s
+			.choose_work:hover, .choose_intern:hover
+				background-color: $color_white
+				i
+					left: -40px
+				.title
+					top: 50%
+					left: 50%
+					transform: translate(-40%, -50%)
+			.title
+				display: inline-block
+				position: absolute
+				font-size: 28px
+				top: 50%
+				left: 50%
+				transform: translate(-50%, -50%)
+				color: $color_yellow
+				font-weight: 900
+				transition: 0.3s
+			.choose_work
+				left: 0px
+			.choose_intern
+				right: 0px
+	.filterbar
+		height: 60px
+		padding: 10px
+		box-sizing: border-box
+		background-color: $color_blue
+		.filter_block
+			display: inline-block
+			margin: 0px
+			vertical-align: middle
+			top: 50%
+			left: 50%
+			transform: translate(-50%, -50%)
+			border-radius:　10px
+			.filter
+				width: 100px
+				display: inline-block
+				// border-radius: 50%
+				margin-right: 30px
+				vertical-align: middle
+				border: solid 3px $color_white
+				background-color: $color_blue
+				color: $color_yellow
+				font-weight: 700
+				text-align: center
+				cursor: pointer
+				padding: 5px 8px
+				font-size: 18px
+				border-radius: 5px
+			.filter:hover
+				background-color: $color_white
+			.search
+				vertical-align: middle
+				display: inline-block
+				margin-left: 60px
+				input
+					width: 200px
+					height: 30px
+					border: solid 2px $color_white
+					border-radius: 5px
+					box-sizing: border-box
+					vertical-align: middle
+					padding: 5px
+					font-size: 18px
+				span
+					display: inline-block
+					background-color: $color_white
+					width: 30px
+					height: 30px
+					border-radius: 5px
+					text-align: center
+					vertical-align: middle
+					i
+						color: $color_grey
+	.info_page
+		// height: 600px
+		padding: 10%
+		padding-top: 5%
+		padding-bottom: 5%
+		opacity: 1
+		transition: 0.3s
+		.error
+			.errorMessage
+				text-align: center
+		.info
+			margin: 0
+			padding: 0px
+			left:60px
+			.info_block
+				display: inline-block
+				margin-right: 100px
+				margin-bottom: 60px
+				width: 300px
+				padding: 20px
+				overflow: hidden
+				box-shadow: 0px 0px 12px rgba($color_blue,0.2)
+				box-sizing: border-box
+				background-color: #FFFFFF
+				padding-top: 0px
+				vertical-align: top
+				.flag
+					height: 25px
+					transform: rotate(45deg)
+					left: 120px
+					top: 10px
+					text-align: center
+					border: solid 2px
+					padding: 3px
+					background-color: $color_blue
+					color: $color_yellow
+				.job_title
+					margin: 0px
+					font-size: 24px
+					color: $color_blue
+				p
+					display: block
+					font-size: 15px
+					letter-spacing: 1px
+					font-weight: 550
+					color: $color_grey
+					margin-bottom: 1px
+				.agent
+					font-weight: 600
+					color: $color_blue
+					margin-bottom: 0px
+				.detail, .days, i
+					display: inline-block
+					font-size: 16px
+					margin: 0px
+					box-sizing: border-box
+					padding: 10px
+					margin-top: 20px
+				.detail
+					margin-right: 25px
+					background-color: $color_blue
+					color: $color_yellow
+					font-weight: 600
+					cursor: pointer
+				.detail:hover
+					background: rgba($color_blue, 0.8)
+				.days
+					background-color: $color_blue
+					color: $color_yellow
+					font-weight: 700
+				.target
+					margin-bottom: 0px
+
+				i
+					border-radius: 50%
+					position: absolute
+					right: 20px
+					bottom: 15px
+					font-size: 28px
+					height: 50px
+					width: 50px
+					text-align: center
+					transition: 0.2s
+					color: $color_white
+					border: solid 2px $color_yellow
+					background-color: $color_blue
+				.bottom_bar
+					height: 5px
+					width: 100%
+					position: absolute
+					margin:0
+					padding: 0
+					bottom: 0px
+					left: 0px
+					background-color: $color_blue
+			.info_block:hover
+				box-shadow: 0px 5px 10px rgba($color_grey, 0.5) 
+				i
+					cursor: pointer
+				i:hover
+					background-color: $color_yellow
+					color: $color_white
+@media screen and (max-width:1400px)
+	.page
+		.blur
+			.info_page
+				.info
+					.info_block
+						margin-right: 30px
+
+						
+@media screen and (max-width:900px)	
+	.page
+		.blur
+			.info_page
+				.info
+					left:30px
+					.info_block
+						margin-right: 20px	
+		.folder
+			.folder_detail
+				height: 350px
+				top: -350px	
+					
+			
+				
